@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html manifest="./manifest.appcache">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PSFree</title>
+<style>
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: #121212;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  header {
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #fff;
+    letter-spacing: 2px;
+    font-family: "Arial", sans-serif;
+    text-shadow: 1px 1px 4px rgba(255,255,255,0.4);
+    flex-shrink: 0;
+  }
+
+  /* Zone centrale */
+  .loader-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .loader {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 8px solid transparent;
+    border-top: 8px solid #FFD700;
+    box-shadow: 0 0 20px #FFD700;
+    animation: spin 1s linear infinite;
+    margin: 50px auto;
+  }
+
+  #done {
+    font-size: 2.5em;
+    color: gold;
+  }
+
+  #binloader {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: rgba(255,255,255,0.1);
+    border-radius: 8px;
+    font-size: 0.9em;
+    color: #fff;
+    text-align: center;
+    max-width: 600px;
+    width: 80%;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .bottom-container {
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .credits-container {
+    margin-top: 15px;
+    padding: 20px;
+    border: 1px solid #555;
+    border-radius: 8px;
+    background-color: rgba(255,255,255,0.05);
+    width: 90%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: row; 
+    flex-wrap: wrap; 
+    justify-content: center; 
+    gap: 15px;
+  }
+
+  .credits-title {
+    width: 100%;
+    text-align: center;
+    font-size: 1.7em;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #fff;
+  }
+
+
+  .credit-item {
+    font-size: 0.75em;
+    margin: 2px;
+  }
+
+  .credit-item a {
+    color: #fff;
+    text-decoration: underline;
+  }
+  .credit-item a:hover {
+    color: #ffd700;
+  }
+
+</style>
+</head>
+<body>
+
+<header>PSFree</header>
+
+<div class="loader-container" id="loader-container">
+  <div class="loader" id="loader"></div>
+  <div style="display: none;" id="done">Done</div>
+  <div id="binloader" style="display: none;" >BinLoader activated send payload to TCP port 9020</div>
+</div>
+
+<pre id="console" style="display: none;"></pre>
+
+<div class="bottom-container">
+  <div class="credits-container">
+    <div class="credits-title">Credit</div>
+    <div class="credit-item"><a href="https://x.com/Kameleonre_" target="_blank">KmePS4</a></div>
+    <div class="credit-item"><a href="https://x.com/_AlAzif" target="_blank">Al-Azif</a></div>
+    <div class="credit-item"><a href="#">abc</a></div>
+    <div class="credit-item"><a href="https://x.com/StretchEcho" target="_blank">Echo Stretch</a></div>
+    <div class="credit-item"><a href="https://github.com/SiSTR0" target="_blank">Sistr0</a></div>
+    <div class="credit-item"><a href="https://github.com/ChendoChap" target="_blank">ChendoChap</a></div>
+    <div class="credit-item"><a href="https://x.com/NazkyYT" target="_blank">Nazky</a></div>
+  </div>
+</div>
+<script>
+    async function loadMultipleModules(files) {
+        try {
+            const modules = await Promise.all(files.map(file => import(file)));
+            return modules;
+        } catch (error) {
+            console.error("Error loading modules:", error);
+            throw error;
+        }
+    }
+
+    async function jailbreak() {
+        try {
+          const modules = await loadMultipleModules([
+          "./Jailbreak.js",
+          "./alert.mjs"
+          ]);
+          console.log("All modules are loaded!");
+          const JailbreakModule = modules[0];
+          if (JailbreakModule && typeof JailbreakModule.GoldHEN === "function") {
+              JailbreakModule.GoldHEN();
+          } else {
+              console.error("GoldHEN function not found in Jailbreak.js module");
+          }
+        } catch (e) {
+          console.error("Failed to jailbreak:", e);
+        }
+    }
+    setTimeout(() => {
+      jailbreak();
+    }, 3000); // 3 seconds delay
+    
+
+</script>
+</body>
+</html>
